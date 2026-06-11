@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Umingle Clone</title>
+</head>
+<body>
+<h1>Random Chat</h1>
+<button id="start">Start</button>
+<p id="status">Waiting...</p>
+
+<script src="/socket.io/socket.io.js"></script>
+<script>
+const socket = io();
+
+socket.on("matched", () => {
+  document.getElementById("status").innerText =
+    "Connected to stranger!";
+});
+</script>
+</body>
+</html>
