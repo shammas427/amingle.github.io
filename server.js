@@ -6,22 +6,34 @@ const app = express();
 const server = http.createServer(app);
 const io = new Server(server);
 
-let waitingUser = null;
+app.use(express.static("public"));
+
+let waiting = null;
 
 io.on("connection", (socket) => {
-  if (waitingUser) {
-    socket.partner = waitingUser;
-    waitingUser.partner = socket;
+  if (waiting) {
+    socket.partner = waiting;
+    waiting.partner = socket;
+
     socket.emit("matched");
-    waitingUser.emit("matched");
-    waitingUser = null;
+    waiting.emit("matched");
+
+    waiting = null;
   } else {
-    waitingUser = socket;
+    waiting = socket;
   }
 
+  socket.on("message", (msg) => {
+    if (socket.partner) {
+      socket.partner.emit("message", msg);
+    }
+  });
+
   socket.on("disconnect", () => {
-    if (waitingUser === socket) waitingUser = null;
+    if (waiting === socket) waiting = null;
   });
 });
 
-server.listen(3000, () => console.log("Server running"));
+server.listen(3000, () => {
+  console.log("Server running on port 3000");
+});
