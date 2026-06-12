@@ -1,37 +1,19 @@
+require("dotenv").config();
+
 const express = require("express");
-const http = require("http");
-const { Server } = require("socket.io");
+const path = require("path");
 
 const app = express();
-const server = http.createServer(app);
 
-const io = new Server(server,{
-  cors:{
-    origin:"*"
-  }
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+app.use(express.static("public"));
+
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "index.html"));
 });
 
-io.on("connection",(socket)=>{
-
-  console.log("User Connected");
-
-  socket.on("chat-message",(msg)=>{
-
-    socket.broadcast.emit(
-      "chat-message",
-      msg
-    );
-
-  });
-
-  socket.on("disconnect",()=>{
-
-    console.log("User Left");
-
-  });
-
-});
-
-server.listen(3000,()=>{
-  console.log("Running");
+app.listen(process.env.PORT || 3000, () => {
+  console.log("Server Running");
 });
