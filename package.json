@@ -1,46 +1,18 @@
-amingle/
-│
-├── .env
-├── package.json
-├── server.js
-│
-├── models/
-│   ├── User.js
-│   ├── Report.js
-│   └── Message.js
-│
-├── middleware/
-│   ├── auth.js
-│   └── adminAuth.js
-│
-├── routes/
-│   ├── auth.js
-│   ├── users.js
-│   ├── admin.js
-│   ├── chat.js
-│   └── report.js
-│
-├── public/
-│   ├── css/
-│   │   └── style.css
-│   │
-│   ├── js/
-│   │   ├── app.js
-│   │   ├── camera.js
-│   │   ├── socket.js
-│   │   ├── webrtc.js
-│   │   └── profile.js
-│   │
-│   └── images/
-│       └── logo.png
-│
-├── views/
-│   ├── index.html
-│   ├── login.html
-│   ├── register.html
-│   ├── profile.html
-│   ├── admin.html
-│   ├── forgot-password.html
-│   └── chat.html
-│
-└── uploads/
+{
+  "name": "amingle",
+  "version": "1.0.0",
+  "description": "Amingle Video Chat",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.2",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.15.0",
+    "socket.io": "^4.8.1",
+    "nodemailer": "^6.10.1"
+  }
+}
