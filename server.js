@@ -7,7 +7,7 @@ const app = express();
 
 mongoose.connect(process.env.MONGODB_URI)
 .then(() => console.log("✅ MongoDB Connected"))
-.catch(err => console.log(err));
+.catch(err => console.log("❌ MongoDB Error:", err));
 
 app.get("/", (req, res) => {
   res.sendFile(__dirname + "/index.html");
