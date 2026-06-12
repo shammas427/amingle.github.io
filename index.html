@@ -1,159 +1,184 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport"
+content="width=device-width,initial-scale=1">
+
 <title>Amingle</title>
 
 <style>
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:Arial,sans-serif;
-}
 
 body{
-    background:#0f0f0f;
-    color:white;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    min-height:100vh;
+background:#111;
+color:white;
+font-family:Arial;
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
+margin:0;
 }
 
-.container{
-    width:90%;
-    max-width:400px;
-    background:#1a1a1a;
-    padding:25px;
-    border-radius:15px;
-    text-align:center;
-}
-
-h1{
-    margin-bottom:10px;
-}
-
-p{
-    color:#aaa;
-    margin-bottom:20px;
+.box{
+background:#1e1e1e;
+padding:25px;
+border-radius:15px;
+width:350px;
 }
 
 input{
-    width:100%;
-    padding:12px;
-    margin:8px 0;
-    border:none;
-    border-radius:8px;
-    background:#2b2b2b;
-    color:white;
+width:100%;
+padding:12px;
+margin:8px 0;
+border:none;
+border-radius:8px;
 }
 
 button{
-    width:100%;
-    padding:12px;
-    border:none;
-    border-radius:8px;
-    background:#6c4cff;
-    color:white;
-    font-size:16px;
-    cursor:pointer;
-    margin-top:10px;
-}
-
-button:hover{
-    opacity:0.9;
+width:100%;
+padding:12px;
+border:none;
+border-radius:8px;
+background:#6c4cff;
+color:white;
+cursor:pointer;
 }
 
 #result{
-    margin-top:15px;
-    color:#00ff88;
+margin-top:15px;
+text-align:center;
 }
+
 </style>
 </head>
 
 <body>
 
-<div class="container">
+<div class="box">
 
-    <h1>💬 Amingle</h1>
-    <p>Create Account</p>
+<h2>Register</h2>
 
-    <form id="registerForm">
+<input
+id="username"
+placeholder="Username">
 
-        <input
-        type="text"
-        id="username"
-        placeholder="Username"
-        required>
+<input
+id="email"
+placeholder="Email">
 
-        <input
-        type="email"
-        id="email"
-        placeholder="Email"
-        required>
+<input
+id="password"
+type="password"
+placeholder="Password">
 
-        <input
-        type="password"
-        id="password"
-        placeholder="Password"
-        required>
+<button onclick="register()">
+Register
+</button>
 
-        <button type="submit">
-            Register
-        </button>
+<hr>
 
-    </form>
+<h2>Login</h2>
 
-    <div id="result"></div>
+<input
+id="loginEmail"
+placeholder="Email">
+
+<input
+id="loginPassword"
+type="password"
+placeholder="Password">
+
+<button onclick="login()">
+Login
+</button>
+
+<div id="result"></div>
 
 </div>
 
 <script>
 
-const form = document.getElementById("registerForm");
+async function register(){
 
-form.addEventListener("submit", async (e)=>{
+const response =
+await fetch("/register",{
 
-    e.preventDefault();
+method:"POST",
 
-    const username =
-    document.getElementById("username").value;
+headers:{
+"Content-Type":"application/json"
+},
 
-    const email =
-    document.getElementById("email").value;
+body:JSON.stringify({
 
-    const password =
-    document.getElementById("password").value;
+username:
+document.getElementById("username").value,
 
-    try{
+email:
+document.getElementById("email").value,
 
-        const res = await fetch("/register",{
-            method:"POST",
-            headers:{
-                "Content-Type":"application/json"
-            },
-            body:JSON.stringify({
-                username,
-                email,
-                password
-            })
-        });
+password:
+document.getElementById("password").value
 
-        const data = await res.json();
-
-        document.getElementById("result")
-        .innerHTML = data.message;
-
-    }catch(err){
-
-        document.getElementById("result")
-        .innerHTML = "Server Error";
-
-    }
+})
 
 });
+
+const data =
+await response.json();
+
+document.getElementById("result")
+.innerHTML = data.message;
+
+}
+
+async function login(){
+
+const response =
+await fetch("/login",{
+
+method:"POST",
+
+headers:{
+"Content-Type":"application/json"
+},
+
+body:JSON.stringify({
+
+email:
+document.getElementById("loginEmail").value,
+
+password:
+document.getElementById("loginPassword").value
+
+})
+
+});
+
+const data =
+await response.json();
+
+if(data.token){
+
+localStorage.setItem(
+"token",
+data.token
+);
+
+document.getElementById("result")
+.innerHTML =
+"Login Successful";
+
+}else{
+
+document.getElementById("result")
+.innerHTML =
+data.message;
+
+}
+
+}
 
 </script>
 
