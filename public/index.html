@@ -10,81 +10,180 @@ body{
 margin:0;
 background:#000;
 color:white;
-font-family:Arial;
-text-align:center;
+font-family:Arial,sans-serif;
+padding:15px;
 }
 
-.header{
-padding:20px;
-font-size:35px;
+.top{
+display:flex;
+justify-content:space-between;
+align-items:center;
+font-size:32px;
 font-weight:bold;
+margin-bottom:15px;
 }
 
-.rules{
-width:90%;
-max-width:600px;
-margin:auto;
-background:#111;
-padding:20px;
-border-radius:15px;
-}
-
-.start-btn{
-margin-top:20px;
-padding:15px 40px;
-font-size:20px;
-background:#6c4cff;
+.logo{
 color:white;
-border:none;
-border-radius:10px;
-cursor:pointer;
+}
+
+#online{
+color:#999;
+}
+
+.video-box{
+height:350px;
+background:#444;
+border-radius:20px;
+overflow:hidden;
+position:relative;
 }
 
 video{
-width:90%;
-max-width:700px;
-margin-top:20px;
-border-radius:15px;
+width:100%;
+height:100%;
+object-fit:cover;
 background:#222;
+}
+
+.report{
+position:absolute;
+right:10px;
+bottom:10px;
+background:none;
+border:none;
+font-size:25px;
+color:white;
+cursor:pointer;
+}
+
+.rules{
+margin-top:20px;
+background:#111;
+padding:20px;
+border-radius:20px;
+}
+
+.rules h2{
+margin-top:0;
+}
+
+.controls{
+display:flex;
+gap:15px;
+margin-top:20px;
+}
+
+.start,
+.next{
+flex:1;
+padding:20px;
+font-size:24px;
+background:#6c4cff;
+color:white;
+border:none;
+border-radius:15px;
+cursor:pointer;
+}
+
+.next{
+max-width:120px;
 }
 </style>
 </head>
 
 <body>
 
-<div class="header">
-Amingle
+<div class="top">
+  <div class="logo">💬 Amingle</div>
+  <div id="online">15211+</div>
 </div>
 
-<video id="localVideo" autoplay muted playsinline></video>
+<div class="video-box">
+  <video id="localVideo" autoplay muted playsinline></video>
+  <button class="report" onclick="reportUser()">🚩</button>
+</div>
 
 <div class="rules">
-<h2>Welcome to Amingle</h2>
+  <h2>Welcome to Amingle</h2>
 
-<p>🔞 You must be 18+</p>
-<p>No nudity or harassment</p>
-<p>Respect all users</p>
+  <p>🔞 You must be 18+</p>
+  <p>No nudity or harassment</p>
+  <p>Respect all users</p>
+  <p>Your webcam must show you, live</p>
+  <p>Do not ask for gender</p>
+  <p>Violators will be banned</p>
+</div>
 
-<button class="start-btn" onclick="startCamera()">
-Start Chat
-</button>
+<div class="controls">
+  <button class="start" onclick="startCamera()">
+    Start
+  </button>
 
+  <button class="next" onclick="nextUser()">
+    ➜
+  </button>
 </div>
 
 <script>
+
 async function startCamera(){
+
 try{
-const stream = await navigator.mediaDevices.getUserMedia({
+
+const stream =
+await navigator.mediaDevices.getUserMedia({
 video:true,
 audio:true
 });
 
-document.getElementById("localVideo").srcObject = stream;
+document.getElementById(
+"localVideo"
+).srcObject = stream;
 
 }catch(err){
-alert("Camera permission denied");
+
+alert(
+"Camera permission denied"
+);
+
 }
+
 }
+
+function nextUser(){
+
+alert("Finding stranger...");
+
+}
+
+function reportUser(){
+
+alert("User reported");
+
+}
+
+function updateOnline(){
+
+const users =
+Math.floor(
+Math.random()*5000
+)+10000;
+
+document.getElementById(
+"online"
+).innerHTML =
+users + "+";
+
+}
+
+setInterval(
+updateOnline,
+5000
+);
+
+updateOnline();
+
 </script>
 
 </body>
