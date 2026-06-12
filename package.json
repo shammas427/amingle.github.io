@@ -1,16 +1,11 @@
 {
   "name": "amingle",
   "version": "1.0.0",
-  "description": "Amingle Demo",
+  "description": "Amingle App",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"
   },
-  "dependencies": {
-    "express": "^4.21.0"
-  }
-}
-{
   "dependencies": {
     "dotenv": "^16.4.5",
     "express": "^4.21.0",
