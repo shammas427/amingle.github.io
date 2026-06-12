@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h2>User Profile</h2>
+
+<div id="profile"></div>
+
+<script>
+
+const token =
+localStorage.getItem("token");
+
+fetch("/users/profile",{
+
+headers:{
+authorization:token
+}
+
+})
+.then(res=>res.json())
+.then(data=>{
+
+document.getElementById(
+"profile"
+).innerHTML =
+
+`
+<h3>${data.username}</h3>
+<p>${data.email}</p>
+`;
+
+});
+
+</script>
+
+</body>
+</html>
