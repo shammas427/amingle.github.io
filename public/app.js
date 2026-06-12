@@ -6,90 +6,168 @@ document.getElementById("messages");
 const input =
 document.getElementById("messageInput");
 
-socket.on("online",(count)=>{
-document.getElementById("online")
-.innerText = count + "+";
+/* ======================
+   CAMERA AUTO START
+====================== */
+
+async function startCamera() {
+
+  try {
+
+    const stream =
+    await navigator.mediaDevices.getUserMedia({
+      video: true,
+      audio: true
+    });
+
+    document.getElementById(
+      "localVideo"
+    ).srcObject = stream;
+
+  } catch (err) {
+
+    alert(
+      "Camera permission denied"
+    );
+
+    console.log(err);
+
+  }
+
+}
+
+window.onload = () => {
+
+  startCamera();
+
+  updateOnline();
+
+};
+
+/* ======================
+   ONLINE USERS
+====================== */
+
+socket.on("online-users", (count) => {
+
+  const online =
+  document.getElementById("online");
+
+  if (online) {
+    online.innerText =
+    count + "+";
+  }
+
 });
 
-socket.on("chat-message",(msg)=>{
+/* ======================
+   CHAT RECEIVE
+====================== */
 
-const div =
-document.createElement("div");
+socket.on("chat-message", (data) => {
 
-div.innerHTML =
-"👤 Stranger: " + msg;
+  const div =
+  document.createElement("div");
 
-messages.appendChild(div);
+  div.innerHTML =
+  "👤 Stranger: " +
+  data.text;
 
-messages.scrollTop =
-messages.scrollHeight;
+  messages.appendChild(div);
+
+  messages.scrollTop =
+  messages.scrollHeight;
 
 });
 
-function sendMessage(){
+/* ======================
+   SEND MESSAGE
+====================== */
 
-const msg =
-input.value;
+function sendMessage() {
 
-if(!msg) return;
+  const msg =
+  input.value;
 
-socket.emit(
-"chat-message",
-msg
+  if (!msg) return;
+
+  socket.emit(
+    "chat-message",
+    msg
+  );
+
+  const div =
+  document.createElement("div");
+
+  div.innerHTML =
+  "🙂 You: " +
+  msg;
+
+  messages.appendChild(div);
+
+  input.value = "";
+
+  messages.scrollTop =
+  messages.scrollHeight;
+
+}
+
+/* ======================
+   NEXT USER
+====================== */
+
+function nextUser() {
+
+  messages.innerHTML =
+  "<div>🔄 Finding stranger...</div>";
+
+  setTimeout(() => {
+
+    messages.innerHTML +=
+    "<div>✅ Connected</div>";
+
+  }, 2000);
+
+}
+
+/* ======================
+   REPORT USER
+====================== */
+
+function reportUser() {
+
+  alert(
+    "🚩 User Reported"
+  );
+
+}
+
+/* ======================
+   FAKE ONLINE COUNT
+====================== */
+
+function updateOnline() {
+
+  const users =
+  Math.floor(
+    Math.random() * 5000
+  ) + 10000;
+
+  const online =
+  document.getElementById(
+    "online"
+  );
+
+  if (online) {
+
+    online.innerHTML =
+    users + "+";
+
+  }
+
+}
+
+setInterval(
+  updateOnline,
+  5000
 );
-
-const div =
-document.createElement("div");
-
-div.innerHTML =
-"🙂 You: " + msg;
-
-messages.appendChild(div);
-
-input.value = "";
-
-messages.scrollTop =
-messages.scrollHeight;
-
-}
-
-function nextUser(){
-
-messages.innerHTML =
-"<div>🔄 Finding new stranger...</div>";
-
-setTimeout(()=>{
-
-messages.innerHTML =
-"<div>✅ Connected to stranger</div>";
-
-},2000);
-
-}
-
-async function startChat(){
-
-try{
-
-const stream =
-await navigator.mediaDevices.getUserMedia({
-video:true,
-audio:true
-});
-
-document.getElementById("localVideo")
-.srcObject = stream;
-
-}catch(err){
-
-alert("Camera permission denied");
-
-}
-
-}
-
-function reportUser(){
-
-alert("User Reported");
-
-}
