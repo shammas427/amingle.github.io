@@ -1,41 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="utf-8">
-<title>Amingle Chat</title>
+<title>Amingle</title>
 </head>
 <body>
-<h2>Amingle Random Chat</h2>
-
-<div id="chat"></div>
-
-<input id="msg" placeholder="Type message">
-<button onclick="send()">Send</button>
-
-<script src="/socket.io/socket.io.js"></script>
-
-<script>
-const socket = io();
-
-socket.on("matched", () => {
-  document.getElementById("chat").innerHTML +=
-    "<p>Connected to stranger</p>";
-});
-
-socket.on("message", (msg) => {
-  document.getElementById("chat").innerHTML +=
-    "<p>Stranger: " + msg + "</p>";
-});
-
-function send() {
-  const msg = document.getElementById("msg").value;
-  socket.emit("message", msg);
-
-  document.getElementById("chat").innerHTML +=
-    "<p>You: " + msg + "</p>";
-
-  document.getElementById("msg").value = "";
-}
-</script>
+<h1>Amingle Working ✅</h1>
 </body>
 </html>
