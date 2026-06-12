@@ -1,5 +1,12 @@
-amingle.github.io/
-├── index.html
-├── server.js
-├── package.json
-└── node_modules/
+{
+  "name": "amingle",
+  "version": "1.0.0",
+  "description": "Amingle Demo",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.21.0"
+  }
+}
